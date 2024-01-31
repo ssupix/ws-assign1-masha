@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MDIA 2294</title>
+	
+	<style>
+	    thead{
+	        font-weight:bold;
+	    }
+	    
+	    td{
+	        padding-left:5px;
+	        padding-right:5px;	        
+	    }
+	    
+	    td.sub-total{
+	        text-align:right;	        
+	    }
+	</style>
+</head>
+<body>
+	<h1>MDIA 2294: ACME Corp Invoice</h1>
+	
+	<table>
+	    <thead>
+	        <tr>
+	            <td>ITEM</td>
+	            <td>DESCRIPTION</td>
+	            <td>QTY</td>
+	            <td>PRICE</td>
+	            <td>LINE TOTAL</td>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>1</td>
+	            <td><input id="line-1-description" type="text" size="40" value="Anvil" /></td>
+	            <td><input id="line-1-quantity" type="text" size="3" value="5" /></td>
+	            <td><input id="line-1-price" type="text" size="6" value="35.00" /></td>
+	            <td class="sub-total"><span id="line-1"></span></td>
+	        </tr>
+	        <tr>
+	            <td>2</td>
+	            <td><input id="line-2-description" type="text" size="40" value="Rocket Skates (each)" /></td>
+	            <td><input id="line-2-quantity" type="text" size="3" value="2" /></td>
+	            <td><input id="line-2-price" type="text" size="6" value="24.99" /></td>
+	            <td class="sub-total"><span id="line-2"></span></td>
+	        </tr>
+	        <tr>
+	            <td>3</td>
+	            <td><input id="line-3-description" type="text" size="40" value="Giant Magnet" /></td>
+	            <td><input id="line-3-quantity" type="text" size="3" value="1" /></td>
+	            <td><input id="line-3-price" type="text" size="6" value="125.50" /></td>
+	            <td class="sub-total"><span id="line-3"></span></td>
+	        </tr>
+	        <tr>
+	            <td>4</td>
+	            <td><input id="line-4-description" type="text" size="40" value="Ball bearings" /></td>
+	            <td><input id="line-4-quantity" type="text" size="3" value="1000" /></td>
+	            <td><input id="line-4-price" type="text" size="6" value="0.25" /></td>
+	            <td class="sub-total"><span id="line-4"></span></td>
+	        </tr>
+	        <tr>
+	            <td>5</td>
+	            <td><input id="line-5-description" type="text" size="40" value="Portable holes" /></td>
+	            <td><input id="line-5-quantity" type="text" size="3" value="12" /></td>
+	            <td><input id="line-5-price" type="text" size="6" value="15.25" /></td>
+	            <td class="sub-total"><span id="line-5"></span></td>
+	        </tr>
+	    </tbody>
+	    <tfoot>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">SUB TOTAL</td>  
+	            <td class="sub-total"><span id="sub-total"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">DISCOUNT</td>  
+	            <td class="sub-total"><span id="discount"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TAX</td>  
+	            <td class="sub-total"><span id="tax"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TOTAL</td>  
+	            <td class="sub-total" style="border-top:solid black 1px"><span id="total"></span></td>	        
+	        </tr>
+	    </tfoot>	    
+	</table>
+	
+	<div><button id="calculate">Calculate</button></div>
+	<div>NOTE: discounts of 10% are given to orders over $250</div>
+
+	<script>
+
+		// Masha Supikhanova A01376907 Assignment 1
+
+		
+		const calc_btn = document.querySelector("#calculate");
+		// variable calc_btn stores element from html that has id #calculate
+		const discount_value = .1;
+		const tax_value = .12;
+		// = applies the value on the right to value on the left
+		// const variable stores value and means that "discount_value" can only be .1 and "tax_value" only .12
+		// same for the calc_btn, that is basically assigned to a button with id="calculate" (stores it)
+	
+	    function calculate() {
+			// function is a set of statements that performs a task
+			// once event happens this code will run
+
+			let line_total = 0;
+			let sub_total = 0;
+			let total_total = 0;
+			// let variable stores numbers(in this case) that be changed or updated later
+			// we need a line_total to calculate and display what happens in every line (first 5)
+			// sub_total is first 5 lines calculated before tax or discount
+			// and total_total is the end result
+
+			const line_1_quantity = document.querySelector("#line-1-quantity").value;
+			//  fetches the value entered into the input field with the id "line-1-quantity" and assigns it to the variable "line_1_quantity"
+			const line_1_price = document.querySelector("#line-1-price").value;
+			//  fetches the value entered into the input field with the id "line-1-price" and assigns it to the variable "line_1_price"
+
+			line_total = line_1_quantity * line_1_price;
+			// calculates the total for the first line
+			document.querySelector("#line-1").innerHTML = "$ " + line_total.toFixed(2);
+			// changes HTML element with the id "line-1" to a concatenated string?? ig it's a string made from dollar sign and whatever we'll get in line 1
+			
+			sub_total += line_total;
+			// we add line total to subtotal
+
+			const line_2_quantity = document.querySelector("#line-2-quantity").value;
+			const line_2_price = document.querySelector("#line-2-price").value;
+
+			line_total = line_2_quantity * line_2_price;
+			document.querySelector("#line-2").innerHTML = "$ " + line_total.toFixed(2);
+
+			sub_total += line_total;
+
+			const line_3_quantity = document.querySelector("#line-3-quantity").value;
+			const line_3_price = document.querySelector("#line-3-price").value;
+
+			line_total = line_3_quantity * line_3_price;
+			document.querySelector("#line-3").innerHTML = "$ " + line_total.toFixed(2);
+	
+			sub_total += line_total;
+
+			const line_4_quantity = document.querySelector("#line-4-quantity").value;
+			const line_4_price = document.querySelector("#line-4-price").value;
+
+			line_total = line_4_quantity * line_4_price;
+			document.querySelector("#line-4").innerHTML = "$ " + line_total.toFixed(2);
+
+			sub_total += line_total;
+
+			const line_5_quantity = document.querySelector("#line-5-quantity").value;
+			const line_5_price = document.querySelector("#line-5-price").value;
+
+			line_total = line_5_quantity * line_5_price;
+			document.querySelector("#line-5").innerHTML = "$ " + line_total.toFixed(2);
+
+			sub_total += line_total;
+
+			// Repeat the same process for lines 2 to 5
+
+			document.querySelector("#sub-total").innerHTML = "$ " + sub_total.toFixed(2);
+
+			// displays whatever is stored in sub_total variable, after all the lines are added in the browser where block with #sub-total is
+			
+			const discount_total = (sub_total > 250) ? sub_total * discount_value : 0;
+			document.querySelector("#discount").innerHTML = "$ " + discount_total.toFixed(2);
+
+			// this is ternary statement, it has only one condition, you can find it in ()
+			// so this statement will decided what  should be store in discount_total variable for me
+			// if the condition is true discount_total = sub_total * discount_total
+			// if the condition is false discount_total = 0
+
+
+			total_total = (sub_total - discount_total) * (1 + tax_value);
+			// this a simple math problem that determines what would be stored in total_total
+			// I add 1 to tax_value to multiple (sub_total - discount_total) by 112%
+			document.querySelector("#total").innerHTML = "$ " + total_total.toFixed(2);
+			// displays whatever is stored in total_total variable, after all the lines are added in the browser where block with #total is
+			
+			const tax = (sub_total - discount_total) * tax_value;
+			document.querySelector("#tax").innerHTML = "$ " + tax.toFixed(2);
+			// so again here we count how much the tax is and store in tax variable to then show it in the browser where block with #tax is
+
+			}
+			calc_btn.addEventListener("click", calculate);
+			// this line ensure all the function runs only after the button is clicked 
+			// when button calc_btn.addEventListener
+			// is clicked "click"
+			// run the function calculate
+			
+    </script>
+</body>
+</html>
